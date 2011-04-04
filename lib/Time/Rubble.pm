@@ -6,6 +6,8 @@ our $VERSION = '0.01';
 
 use Carp;
 
+sub epoch { $_[0]->{epoch} }
+
 sub new {
     my ($class, $args) = @_;
     my $now = time;
@@ -20,6 +22,30 @@ sub new {
         epoch => $now,
     }, $class;
 }
+
+use overload '""'  => \&epoch,
+             'cmp' => \&compare,
+             '<=>' => \&compare,
+             '+'   => \&add,
+             '-'   => \&subtract,
+             'fallback' => undef;
+
+sub _get_epochs {
+    my ($lhs, $rhs, $reverse) = @_;
+    $rhs = $rhs->{epoch} if ref $rhs eq 'Time::Rubble';
+    if ($reverse) {
+        return $rhs, $lhs->{epoch};
+    }
+    return $lhs->{epoch}, $rhs;
+}
+
+sub compare {
+    my ($lhs, $rhs) = _get_epochs(@_);
+    return $lhs <=> $rhs;
+}
+
+sub add      { shift->{epoch} + shift }
+sub subtract { shift->{epoch} - shift }
 
 1;
 __END__
