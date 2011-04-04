@@ -4,9 +4,21 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use Carp;
+
 sub new {
-    my ($class) = @_;
-    bless {}, $class;
+    my ($class, $args) = @_;
+    my $now = time;
+    if ($args) {
+        if ($args =~ /^\d+$/) {
+            $now = $args;
+        } else {
+            Carp::croak "$args is invalid argument";
+        }
+    }
+    bless {
+        epoch => $now,
+    }, $class;
 }
 
 1;
