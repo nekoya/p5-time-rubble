@@ -64,7 +64,7 @@ sub minute { shift->_time_piece->minute }
 sub min    { shift->_time_piece->min  }
 sub second { shift->_time_piece->second }
 sub sec    { shift->_time_piece->sec  }
-sub mysql_datetime { shift->_to_str('%Y-%m-%d %H:%M:%S') }
+sub mysql_datetime { shift->_time_piece->strftime('%Y-%m-%d %H:%M:%S') }
 sub strftime {
     my ($self, $format) = @_;
     shift->_time_piece->strftime($format);
