@@ -10,16 +10,17 @@ sub epoch { $_[0]->{epoch} }
 
 sub new {
     my ($class, $args) = @_;
-    my $now = time;
     if ($args) {
-        if ($args =~ /^\d+$/) {
-            $now = $args;
+        if (ref $args eq 'HASH') {
+        } elsif ($args =~ /^\d+$/) {
+            $args = { now => $args };
         } else {
-            Carp::croak "$args is invalid argument";
+            Carp::croak "invalid argument";
         }
     }
     bless {
-        epoch => $now,
+        epoch    => $args->{now}      || time,
+        timezone => $args->{timezone} || 'UTC',
     }, $class;
 }
 
