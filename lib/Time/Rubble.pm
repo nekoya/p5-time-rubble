@@ -5,6 +5,7 @@ use warnings;
 our $VERSION = '0.01';
 
 use Carp;
+use Time::Piece;
 
 sub epoch { $_[0]->{epoch} }
 
@@ -47,6 +48,13 @@ sub compare {
 
 sub add      { shift->{epoch} + shift }
 sub subtract { shift->{epoch} - shift }
+
+sub mysql_datetime {
+    my $self = shift;
+    local $ENV{TZ} = $self->{timezone};
+    my $t = localtime($self->{epoch});
+    $t->strftime('%Y-%m-%d %H:%M:%S');
+}
 
 1;
 __END__
