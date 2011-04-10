@@ -49,11 +49,25 @@ sub compare {
 sub add      { shift->{epoch} + shift }
 sub subtract { shift->{epoch} - shift }
 
-sub mysql_datetime {
+sub _time_piece {
     my $self = shift;
     local $ENV{TZ} = $self->{timezone};
     my $t = localtime($self->{epoch});
-    $t->strftime('%Y-%m-%d %H:%M:%S');
+}
+
+sub year   { shift->_time_piece->year }
+sub mon    { shift->_time_piece->mon  }
+sub day    { shift->_time_piece->mday } # not compatible Time::Piece
+sub mday   { shift->_time_piece->mday }
+sub hour   { shift->_time_piece->hour }
+sub minute { shift->_time_piece->minute }
+sub min    { shift->_time_piece->min  }
+sub second { shift->_time_piece->second }
+sub sec    { shift->_time_piece->sec  }
+sub mysql_datetime { shift->_to_str('%Y-%m-%d %H:%M:%S') }
+sub strftime {
+    my ($self, $format) = @_;
+    shift->_time_piece->strftime($format);
 }
 
 1;
