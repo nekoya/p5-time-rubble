@@ -82,17 +82,66 @@ __END__
 
 =head1 NAME
 
-Time::Rubble - 
+Time::Rubble - Simple epoch time manager with time zone support
 
 =head1 SYNOPSIS
 
+    my $now = Time::Rubble->new;
+    $now->mysql_datetime;
+
+    my $dt = Time::Rubble->new('2011-04-12 09:24:53', 'JST-9');
+    $dt->{timezone} = 'UTC';
+    $dt->strftime('%Y-%m-%d');
+
 =head1 DESCRIPTION
+
+B<Time::Rubble> is a simple module based on epoch time. It can be converted as string by any formats with timezone.
+
+B<Time::Rubble> delegates their work to Time::Piece to get time as string.
 
 =head1 METHODS
 
 =over 4
 
 =item new
+
+=item new($time)
+
+=item new($time, $timezone)
+
+$time takes two types of format, epoch or mysql_datetime (default: current time).
+
+$timezone affects when the object is converted to string (default: UTC).
+
+=item year
+
+=item mon
+
+=item day
+
+=item mday
+
+=item hour
+
+=item minute
+
+=item min
+
+=item second
+
+=item sec
+
+These works like L<Time::Piece>'s methods.  Actualy, B<Time::Rubble> creates B<Time::Piece> object.
+
+But, day method is not compatible with B<Time::Piece>. Its behavior is same to mday method.
+
+=item mysql_datetime
+
+Get MySQL datetime format like L<Time::Piece::MySQL>.
+
+=item strftime($format)
+
+Wrapper of B<Time::Piece>'s strftime.
 
 =back
 
