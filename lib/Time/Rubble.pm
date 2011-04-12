@@ -7,8 +7,6 @@ our $VERSION = '0.01';
 use Carp;
 use Time::Piece::MySQL;
 
-sub epoch { $_[0]->{epoch} }
-
 sub new {
     my ($class, $dt, $tz) = @_;
     $dt ||= time;
@@ -34,6 +32,8 @@ use overload '""'  => \&epoch,
              '+'   => \&add,
              '-'   => \&subtract,
              'fallback' => undef;
+
+sub epoch { $_[0]->{epoch} }
 
 sub _get_epochs {
     my ($lhs, $rhs, $reverse) = @_;
