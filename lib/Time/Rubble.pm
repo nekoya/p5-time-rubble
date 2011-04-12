@@ -5,23 +5,26 @@ use warnings;
 our $VERSION = '0.01';
 
 use Carp;
-use Time::Piece;
+use Time::Piece::MySQL;
 
 sub epoch { $_[0]->{epoch} }
 
 sub new {
-    my ($class, $args) = @_;
-    if ($args) {
-        if (ref $args eq 'HASH') {
-        } elsif ($args =~ /^\d+$/) {
-            $args = { now => $args };
-        } else {
-            Carp::croak "invalid argument";
-        }
+    my ($class, $dt, $tz) = @_;
+    $dt ||= time;
+    $tz ||= 'UTC';
+
+    $dt .= ' 00:00:00' if $dt =~ /^\d\d\d\d\-\d\d\-\d\d$/;
+    if ($dt =~ /^\d\d\d\d\-\d\d\-\d\d \d\d:\d\d:\d\d$/) {
+        local $ENV{TZ} = $tz;
+        $dt = localtime->from_mysql_datetime($dt)->epoch;
     }
+
+    Carp::croak "$dt is invalid time" unless $dt =~ /^[0-9]+$/;
+
     bless {
-        epoch    => $args->{now}      || time,
-        timezone => $args->{timezone} || 'UTC',
+        epoch    => $dt,
+        timezone => $tz,
     }, $class;
 }
 
