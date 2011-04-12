@@ -8,6 +8,7 @@ my $now = 1301931927;
 
 subtest "UTC" => sub {
     my $t = Time::Rubble->new($now);
+    is $t->epoch, $now, 'epoch';
     is $t->year, 2011, 'year';
     is $t->mon,     4, 'month';
     is $t->day,     4, 'day';
@@ -22,6 +23,7 @@ subtest "UTC" => sub {
 
 subtest "JST" => sub {
     my $t = Time::Rubble->new($now, 'JST-9');
+    is $t->epoch, $now, 'epoch';
     is $t->year, 2011, 'year';
     is $t->mon,     4, 'month';
     is $t->day,     5, 'day';
