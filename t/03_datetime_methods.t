@@ -21,7 +21,7 @@ subtest "UTC" => sub {
 };
 
 subtest "JST" => sub {
-    my $t = Time::Rubble->new({ now => $now, timezone => 'JST-9' });
+    my $t = Time::Rubble->new($now, 'JST-9');
     is $t->year, 2011, 'year';
     is $t->mon,     4, 'month';
     is $t->day,     5, 'day';
