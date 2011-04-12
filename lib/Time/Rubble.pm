@@ -54,8 +54,12 @@ sub subtract { shift->{epoch} - shift }
 
 sub _time_piece {
     my $self = shift;
-    local $ENV{TZ} = $self->{timezone};
-    my $t = localtime($self->{epoch});
+    my $key = join ':', $self->{epoch}, $self->{timezone};
+    unless ($self->{_cache}->{$key}) {
+        local $ENV{TZ} = $self->{timezone};
+        $self->{_cache}->{$key} = localtime($self->{epoch});
+    }
+    $self->{_cache}->{$key};
 }
 
 sub year   { shift->_time_piece->year }
