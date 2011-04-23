@@ -131,7 +131,7 @@ $timezone affects when the object is converted to string (default: UTC).
 
 =item sec
 
-These works like L<Time::Piece>'s methods.  Actualy, B<Time::Rubble> creates B<Time::Piece> object.
+These works like L<Time::Piece>'s methods.  Actually, B<Time::Rubble> creates B<Time::Piece> object.
 
 But, day method is not compatible with B<Time::Piece>. Its behavior is same to mday method.
 
