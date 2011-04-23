@@ -1,0 +1,19 @@
+This is Perl module Time::Rubble.
+
+INSTALLATION
+
+To install this module, run the following commands:
+
+    % perl Makefile.PL
+    % make && make test
+    % make install
+
+DOCUMENTATION
+
+Time::Rubble documentation is available as in POD. So you can do:
+
+    % perldoc Time::Rubble
+
+to read the documentation online with your favorite pager.
+
+Ryo Miyake
